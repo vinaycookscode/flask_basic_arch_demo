@@ -1,1 +1,1 @@
-DB_LOCAL = 'mysql://root:root@localhost/stackforgeeks'
+DB_LOCAL = 'mysql+pymysql://root:root@localhost/stackforgeeks'

@@ -1,11 +1,10 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
-from sqlalchemy.orm import relationship
-from flask_appbuilder import Model
 from app import db
-from flask_script import Manager
 
 
 class TblUser(db.Model):
+
+    __tablename__ = 'TblUser'
     id = db.Column(Integer, primary_key=True)
     first_name = db.Column(String(100), unique=False, nullable=True)
     last_name = db.Column(String(100), default='Street ')

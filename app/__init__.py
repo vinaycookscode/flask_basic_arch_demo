@@ -19,10 +19,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
+from config.db_constants import DB_LOCAL
+
 
 
 app = Flask(__name__)
 #app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_LOCAL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+from model.User import TblUser
+
