@@ -4,12 +4,13 @@ from app import db
 
 class TblUser(db.Model):
 
-    __tablename__ = 'TblUser'
+    __tablename__ = 'tbl_user'
+
     id = db.Column(Integer, primary_key=True)
     first_name = db.Column(String(100), unique=False, nullable=True)
-    last_name = db.Column(String(100), default='Street ')
-    surname = db.Column(String(100), default='Street ')
-    birthday = db.Column(Date)
+    mid_name = db.Column(String(100), default=' ')
+    surname = db.Column(String(100), default='')
+    birthday = db.Column(Date, nullable=True, default='')
     mobile_no = db.Column(String(10))
     linkedin_profile = db.Column(String(100), nullable=True, )
 
