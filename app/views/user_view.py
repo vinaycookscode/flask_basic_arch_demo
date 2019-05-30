@@ -7,7 +7,8 @@ from sqlalchemy.exc import DatabaseError
 from marshmallow import ValidationError
 from app.helpers.response import ApiResponse
 from app.req_validation.user_data_validation import UserDataValid
-
+from app.config.static_messages import StaticMessage
+from app.helpers.user_helper import UserHelper
 user_blp = Blueprint('user_blp', __name__)
 
 
@@ -32,7 +33,8 @@ class UserView(MethodView):
 
         return 'Hello Vinay'
 
-    def post(self):
+    @staticmethod
+    def post():
 
         final_data = []
         response_message = ''
@@ -41,34 +43,21 @@ class UserView(MethodView):
         errors = {}
 
         try:
+            static_message = StaticMessage()
             user_info = request.json.get('user_info', None)
             if user_info:
-                user_schema = UserSchema()
-
-                user_record = TblUser(
-                    first_name=user_info['first_name'],
-                    mid_name=user_info['mid_name'],
-                    surname=user_info['surname'],
-                    birthday=user_info['birthday'],
-                    mobile_no=user_info['mobile_no'],
-                    linkedin_profile=user_info['linkedin_profile']
-                )
-                db.session.add(user_record)
-
-                if db.session.commit() is None:
-                    user_model_schema_record = user_schema.dump(user_record)
+                helper_response = UserHelper.insert(user_info=user_info)
+                if helper_response['status']:
+                    user_model_schema_record = helper_response['data']
                     status = True
                     http_code = 201
-                    response_message = 'Data inserted'
-                    print(user_model_schema_record)
-                    final_data.append(user_model_schema_record.data)
+                    response_message = static_message.DATA_INSERTED
+                    final_data = user_model_schema_record
 
                 else:
                     status = False
                     http_code = 400
-                    response_message = 'Error while inserting a record'
-
-
+                    response_message = StaticMessage.ERROR_WHILE_INSERTING
 
         except ValidationError as ve:
             response_message = 'Required : ' + str(ve)
@@ -78,18 +67,20 @@ class UserView(MethodView):
             final_data = []
 
         except DatabaseError as de:
-            response_message = 'Exception ,' + str(de)
+            response_message = 'Exception1 ,' + str(de)
             print(response_message)
             status = False
             http_code = 400
             final_data = []
 
         except Exception as e:
-            response_message = 'Exception ,' + str(e)
+            response_message = 'Exception2 ,' + str(e)
             print(response_message)
             status = False
             http_code = 400
             final_data = []
+            db.session.rollback()
+
         finally:
             db.session.close()
 

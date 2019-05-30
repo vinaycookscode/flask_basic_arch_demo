@@ -8,3 +8,7 @@ class ApiResponse(object):
     @staticmethod
     def response(data, msg, status, http_code=400, mimetype='application/json', errors={}):
         return Response(json.dumps({'data': data, 'status': status, 'msg': msg, 'error': errors}),status=http_code,mimetype=mimetype)
+
+    @staticmethod
+    def functional_response(status=False, data=None):
+        return {'status': status, 'data': data}
