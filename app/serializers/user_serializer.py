@@ -16,3 +16,4 @@ class UserSchema(ma.Schema):
     birthday = fields.Date(required=True)
     mobile_no = fields.Str(required=True)
     linkedin_profile = fields.Str(required=False)
+    is_active = fields.Boolean()

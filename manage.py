@@ -11,3 +11,11 @@ manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
     manager.run()
+
+"""
+    Use below commands to migrate database
+            python manage.py init
+            python manage.py db init
+            python manage.py db migrate
+            python manage.py db upgrade
+"""

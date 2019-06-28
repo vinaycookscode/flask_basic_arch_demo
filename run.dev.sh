@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export FLASK_CONFIG=development
 export FLASK_APP=wsgi.py
 export FLASK_DEBUG=True

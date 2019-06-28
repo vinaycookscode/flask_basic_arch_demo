@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Boolean
 from app import db
 
 
@@ -13,7 +13,7 @@ class TblUser(db.Model):
     birthday = db.Column(Date, nullable=True, default='')
     mobile_no = db.Column(String(10))
     linkedin_profile = db.Column(String(100), nullable=True, )
-
+    is_active = db.Column(Boolean, default=True)
     def __repr__(self):
 
         return self.first_name
